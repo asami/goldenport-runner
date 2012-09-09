@@ -1,0 +1,12 @@
+[app]
+  version: 0.1.0-SNAPSHOT
+  org: org.goldenport
+  name: goldenport-runner
+  class: org.goldenport.runner.Runner
+[scala]
+  version: 2.9.2
+[repositories]
+  local
+  scala-tools-releases
+  maven-central
+  asamioffice:http://www.asamioffice.com/maven
