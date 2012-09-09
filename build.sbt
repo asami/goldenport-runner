@@ -8,7 +8,7 @@ version := "0.1.0-SNAPSHOT"
 
 // scalaVersion := "2.9.1"
 
-crossScalaVersions := Seq("2.9.2", "2.9.1")
+crossScalaVersions := Seq("2.9.1", "2.9.2")
 
 scalacOptions += "-deprecation"
 
@@ -26,7 +26,7 @@ libraryDependencies += "org.goldenport" %% "goldenport-sexpr" % "0.1.0"
 
 libraryDependencies += "junit" % "junit" % "4.10" % "test"
 
-mainClass := Some("org.goldenport.runner.Runner")
+mainClass := Some("org.goldenport.runner.Main")
 
 //
 publishTo := Some(Resolver.file("asamioffice", file("target/maven-repository")))

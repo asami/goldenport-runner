@@ -8,42 +8,55 @@ import scalax.file._
 import org.goldenport.sexpr._
 import org.goldenport.sexpr.SExpr._
 
-object Runner {
-  def main(args: Array[String]) {
-    val home = args(0)
-    val main = args(1)
-    val appargs = args.drop(2)
+class Runner(val args: Array[String]) {
+    def run() {
+    _parse_option(args.toList) match {
+      case home :: main :: appargs => _run(home, main, appargs.toArray)
+      case _ => _usage
+    }
+  }
 
+  private def _usage {
+    println("usage: grun directory classname")
+  }
+
+  private def _run(home: String, main: String, args: Array[String]) {
     val homedir = Path(home)
     val classpath = homedir / ".ensime"
     val ensime = SExprParser(classpath.string)
-    val cp = getClasspath(ensime.get)
+    val cp = _classpath(ensime.get)
     val cl = new URLClassLoader(cp.map(x => new File(x).toURI.toURL).toArray)
-    println(cl.getURLs.toList)
     val klass = cl.loadClass(main)
-    println(klass)
-    println(appargs)
     val method = klass.getMethod("main", args.getClass)
-    method.invoke(null, appargs)
+    method.invoke(null, args)
   }
 
-  def getClasspath(s: SExpr) = {
+  private def _classpath(s: SExpr) = {
     val subprojects = getKeyword[List[SExpr]](s, "subprojects")
     val prj = subprojects.get(0)
     val deps = getKeyword[List[String]](prj, "runtime-deps")
-    println(deps)
-    println(getKeyword[SExpr](prj, "package"))
     val target = getKeyword[String](prj, "target")
-    println(target)
     val mainClass = getKeyword[String](prj, "main-class")
-    println(mainClass)
     target.orEmpty[List] ::: ~deps
+  }
+
+  // http://d.hatena.ne.jp/tototoshi/20110518/1305737939
+  private def _parse_option(args: List[String]): List[String] = {
+    args
+  }
+}
+
+object Main {
+  def main(args: Array[String]) {
+    val runner = new Runner(args)
+    runner.run()
   }
 }
 
 class AppMain extends xsbti.AppMain {
   def run(config: xsbti.AppConfiguration) = {
-    Runner.main(config.arguments)
+    val runner = new Runner(config.arguments)
+    runner.run()
     new xsbti.Exit {
       val code = 0
     }
