@@ -1,3 +1,5 @@
+seq(conscriptSettings :_*)
+
 organization := "org.goldenport"
 
 name := "goldenport-runner"

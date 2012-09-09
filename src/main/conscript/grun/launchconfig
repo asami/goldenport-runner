@@ -2,7 +2,7 @@
   version: 0.1.0-SNAPSHOT
   org: org.goldenport
   name: goldenport-runner
-  class: org.goldenport.runner.Runner
+  class: org.goldenport.runner.AppMain
 [scala]
   version: 2.9.2
 [repositories]

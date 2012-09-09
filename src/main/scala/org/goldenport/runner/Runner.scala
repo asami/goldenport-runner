@@ -40,3 +40,12 @@ object Runner {
     target.orEmpty[List] ::: ~deps
   }
 }
+
+class AppMain extends xsbti.AppMain {
+  def run(config: xsbti.AppConfiguration) = {
+    Runner.main(config.arguments)
+    new xsbti.Exit {
+      val code = 0
+    }
+  }    
+}
