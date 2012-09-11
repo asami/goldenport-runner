@@ -8,20 +8,47 @@ import scalax.file._
 import org.goldenport.sexpr._
 import org.goldenport.sexpr.SExpr._
 
+/*
+ * @since   Sep.  9, 2012
+ * @version Sep. 12, 2012
+ * @author  ASAMI, Tomoharu
+ */
 class Runner(val args: Array[String]) {
-    def run() {
-    _parse_option(args.toList) match {
+  val version = "0.1.0"
+  val build = "20120912"
+  var verbose: Boolean = false
+
+  def run() {
+    try {
+      _run()
+    } catch {
+      case e: java.io.IOException => _error(e.getMessage)
+      case e: java.lang.ClassNotFoundException => _error(e.getMessage + " (Class not found)")
+    }
+  }
+
+  private def _usage {
+    println("""usage: java $JAVA_OPTS -jar goldenport-runner_2.9.2-${version}-one-jar.jar directory classname args...
+
+It's useful to create a short script in your bin directory like below:
+---
+#! /bin/sh
+
+JAVA_OPTS="-Xmx512m -XX:MaxPermSize=256m -Dfile.encoding=UTF-8"
+
+java $JAVA_OPTS -jar $HOME/lib/goldenport-runner_2.9.2-${version}-one-jar.jar $HOME/src/mycommand com.example.mycommand.Main "$@"
+---""".replace("${version}", version))
+  }
+
+  private def _run() {
+    _parse_options(args.toList) match {
       case home :: main :: appargs => _run(home, main, appargs.toArray)
       case _ => _usage
     }
   }
 
-  private def _usage {
-    println("usage: grun directory classname")
-  }
-
   private def _run(home: String, main: String, args: Array[String]) {
-    val homedir = Path(home)
+    val homedir = Path.fromString(home)
     val classpath = homedir / ".ensime"
     val ensime = SExprParser(classpath.string)
     val cp = _classpath(ensime.get)
@@ -40,9 +67,27 @@ class Runner(val args: Array[String]) {
     target.orEmpty[List] ::: ~deps
   }
 
-  // http://d.hatena.ne.jp/tototoshi/20110518/1305737939
-  private def _parse_option(args: List[String]): List[String] = {
-    args
+  private def _error(msg: String) {
+    Console.err.println(msg)
+  }
+
+  private def _parse_options(args: List[String]): List[String] = {
+    _parse_options(args, Nil)
+  }
+
+  private def _parse_options(in: List[String], out: List[String]): List[String] = {
+    in match {
+      case Nil => out
+      case "-verbose" :: rest => {
+        verbose = true
+        _parse_options(rest, out)
+      }
+      case "-dir" :: arg :: rest => {
+//        directory = arg.some
+        _parse_options(rest, out)
+      }
+      case arg :: rest => _parse_options(rest, out :+ arg)
+    }
   }
 }
 

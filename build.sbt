@@ -4,11 +4,11 @@ organization := "org.goldenport"
 
 name := "goldenport-runner"
 
-version := "0.1.0-SNAPSHOT"
+version := "0.1.0"
 
-// scalaVersion := "2.9.1"
+scalaVersion := "2.9.2"
 
-crossScalaVersions := Seq("2.9.1", "2.9.2")
+// crossScalaVersions := Seq("2.9.1", "2.9.2")
 
 scalacOptions += "-deprecation"
 
@@ -27,6 +27,11 @@ libraryDependencies += "org.goldenport" %% "goldenport-sexpr" % "0.1.0"
 libraryDependencies += "junit" % "junit" % "4.10" % "test"
 
 mainClass := Some("org.goldenport.runner.Main")
+
+// onejar
+seq(com.github.retronym.SbtOneJar.oneJarSettings: _*)
+
+mainClass in oneJar := Some("org.goldenport.runner.Main")
 
 //
 publishTo := Some(Resolver.file("asamioffice", file("target/maven-repository")))
