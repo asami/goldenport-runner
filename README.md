@@ -17,9 +17,9 @@ You can install goldenport-runner to download a jar file shown below and copy a 
 
 You can also get the jar file from the source.
 
-  $ git clone https://github.com/asami/goldenport-runner.git
-  $ cd goldenport-runner
-  $ sbt one-jar
+    $ git clone https://github.com/asami/goldenport-runner.git
+    $ cd goldenport-runner
+    $ sbt one-jar
 
 You can get the goldenport-runner as target/scala-2.9.2/goldenport-runner_2.9.2-[version]-one-jar.jar
 
@@ -28,12 +28,12 @@ Usage
 
 First you must produce an [ensime](https://github.com/aemoncannon/ensime) configuration file .ensime for your sbt project:
 
-  $ cd ~/src/mycommand
-  $ sbt "ensime project"
+    $ cd ~/src/mycommand
+    $ sbt "ensime project"
 
 You can execute the goldenport-runner using the java command directly:
 
-  $ java -jar goldenport-runner_2.9.2-0.1.0-one-jar.jar ~/src/mycommand com.example.mycommand.Main args
+    $ java -jar goldenport-runner_2.9.2-0.1.0-one-jar.jar ~/src/mycommand com.example.mycommand.Main args
 
 It's useful to create a short script in your bin directory like below:
 
