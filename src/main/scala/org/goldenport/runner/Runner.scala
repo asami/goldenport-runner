@@ -10,7 +10,7 @@ import org.goldenport.sexpr.SExpr._
 
 /*
  * @since   Sep.  9, 2012
- * @version Sep. 12, 2012
+ * @version Apr. 18, 2014
  * @author  ASAMI, Tomoharu
  */
 class Runner(val args: Array[String]) {
@@ -51,7 +51,7 @@ java $JAVA_OPTS -jar $HOME/lib/goldenport-runner_2.9.2-${version}-one-jar.jar $H
     val homedir = Path.fromString(home)
     val classpath = homedir / ".ensime"
     val ensime = SExprParser(classpath.string)
-    val cp = _classpath(ensime.get)
+    val cp = _classpath(ensime)
     val cl = new URLClassLoader(cp.map(x => new File(x).toURI.toURL).toArray)
     val klass = cl.loadClass(main)
     val method = klass.getMethod("main", args.getClass)
