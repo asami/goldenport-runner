@@ -13,7 +13,7 @@ Installation
 
 You can install goldenport-runner to download a jar file shown below and copy a library directory.
 
-- [download](https://github.com/downloads/asami/goldenport-runner/goldenport-runner_2.9.2-0.1.0-one-jar.jar)
+- [download](https://raw.github.com/asami/maven-repository/2023/downloads/goldenport-runner_2.9.2-0.1.0-one-jar.jar)
 
 You can also get the jar file from the source.
 
